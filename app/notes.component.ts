@@ -28,6 +28,10 @@ export class NotesComponent {
         this.notes.push(note);
         this.text = "";
     }
+
+    remove(idx) {
+        this.notes.splice(idx, 1);
+    }
 }
 
 interface Note {
