@@ -19,7 +19,7 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "<h1>Notes Angular 2 App by {{name}}</h1>\n                <notes></notes>"
+        template: "<h1>Notes Angular 2 App by {{name}}</h1>\n    <notes></notes>"
     })
 ], AppComponent);
 exports.AppComponent = AppComponent;
