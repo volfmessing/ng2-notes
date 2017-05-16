@@ -6,12 +6,14 @@ import {Component} from "@angular/core";
     selector: 'notes',
     template: `Notes list:
     <ul>
-        <li *ngFor="let note of notes ">
+        <li *ngFor="let note of notes; let i=index">
             {{note.text}}
-            <textarea [(ngModel)]="text"></textarea>
-            <button (click)="add()">Add</button>
+            <button (click)="remove(i)">remove</button>
         </li>
-    </ul>`
+    </ul>
+    <textarea [(ngModel)]="text"></textarea>
+    <button (click)="add()">Add</button>`
+
 })
 export class NotesComponent {
     notes: Note[] = [
