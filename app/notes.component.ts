@@ -27,7 +27,6 @@ export class NotesComponent {
     ]
 
     text: string;
-    
 
     private notesUrl = 'http://localhost:8080/notes';  // URL to web api
 
