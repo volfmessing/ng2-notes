@@ -2,12 +2,32 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var session = require('express-session');
+var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var notes_initial = [
     {text: "First note"},
     {text: "Second note"},
     {text: "Third note"}
 ];
+
+//add cors support to express
+//app.use(cors());
+var allowCrossDomain = function (req, res, next) {
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header('Access-Control-Allow-Origin', req.header("origin"));
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+};
+app.use(allowCrossDomain);
+
+
+//set up body parser
+app.use(bodyParser.urlencoded({hasExtendedUnicodeEscape: true}));
+app.use(bodyParser.json());
+
 
 app.use(session({
     secret: 'angular_tutorial',
@@ -17,8 +37,6 @@ app.use(session({
 
 //get default notes from session
 app.get("/notes", function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     if (!req.session.notes) {
         req.session.notes = notes_initial;
     }

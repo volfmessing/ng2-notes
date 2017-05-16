@@ -42,6 +42,7 @@ export class NotesComponent {
         let note = {text: this.text}
         this.notes.push(note);
         this.text = "";
+        this.addNote(note);
     }
 
     remove(idx) {
@@ -49,10 +50,16 @@ export class NotesComponent {
     }
 
     getNotes(): Promise<Note[]> {
-        return this.http.get(this.notesUrl)
+        return this.http.get(this.notesUrl, {withCredentials: true})
             .toPromise()
             .then(response => response.json() as Note[]);
     }
+
+    addNote(note:Note) {
+        this.http.post(this.notesUrl, note, {withCredentials: true}).toPromise()
+            .then(response => console.log("note sent, response", response));
+    }
+
 }
 
 interface Note {
