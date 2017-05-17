@@ -66,9 +66,10 @@ app.get("/notes", function (req, res) {
 
 //add new note to session
 app.post("/notes", function (req, res) {
-    var note = req.body;
-    console.log("adding note", req.session.notes);
-    req.session.notes.push(note);
+    // var note = req.body;
+    // console.log("adding note", req.session.notes);
+    // req.session.notes.push(note);
+    db.notes.insert(req.body);
     res.end();
 });
 
