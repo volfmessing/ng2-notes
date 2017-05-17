@@ -2,7 +2,7 @@
  * Created by dp-ptcstd-32 on 5/16/2017.
  */
 import {Component} from "@angular/core";
-import {Http} from "@angular/http";
+import {Http, RequestOptionsArgs, URLSearchParams} from "@angular/http";
 import "rxjs/add/operator/toPromise";
 
 
@@ -10,9 +10,9 @@ import "rxjs/add/operator/toPromise";
     selector: 'notes',
     template: `Notes list:
     <ul>
-        <li *ngFor="let note of notes; let i=index">
+        <li *ngFor="let note of notes">
             {{note.text}}
-            <button (click)="remove({{note.idx}})">remove</button>
+            <button (click)="remove(note._id)">remove</button>
         </li>
     </ul>
     <textarea [(ngModel)]="text"></textarea>
@@ -21,37 +21,49 @@ import "rxjs/add/operator/toPromise";
 })
 export class NotesComponent {
 
-    notes: Note[] = [
-        {idx: '1', text: "Note one"},
-        {idx: '2', text: "Note two"}
-    ]
+    // notes: Note[] = [
+    //     {/*idx: '1', */text: "Note one"},
+    //     {/*idx: '2', */text: "Note two"}
+    // ]
 
-    idx:string;
+    // idx:string;
+
+    notes: Note[] = [];
     text: string;
 
     private notesUrl = 'http://localhost:8080/notes';  // URL to web api
 
     constructor(private http: Http) {
+        this.loadNotes();
+    }
+
+    loadNotes() {
         this.getNotes().then(notes => {
             this.notes = notes
-            console.log(notes);
+            console.log("notes are loaded", notes);
         });
     }
 
     add() {
-        let note = {idx: null, text: this.text}
+        let note = {/*idx: null, */text: this.text}
         this.addNote(note);
     }
 
-    remove(idx) {
-        this.removeNote(idx);
+    remove(id: string) {
+        this.removeNote(id);
     }
 
-    removeNote(idx) {
-        this.http.delete(this.notesUrl, idx, {withCredentials: true}).toPromise()
+
+    removeNote(id) {
+        let params: URLSearchParams = new URLSearchParams();
+        params.set('id', id);
+        let requestParams: RequestOptionsArgs = {search: params, withCredentials: true};
+        this.http.delete(this.notesUrl, requestParams).toPromise()
             .then(response => {
                 console.log("note sent, response", response);
-                this.notes.splice(idx, 1);
+                console.log(
+                    `note with id ${id} removed, response`, response);
+                this.loadNotes();
             });
 
     }
@@ -65,17 +77,16 @@ export class NotesComponent {
     addNote(note:Note) {
         this.http.post(this.notesUrl, note, {withCredentials: true}).toPromise()
             .then(response => {
-                note = response.json() as Note;
-                this.notes.push(note);
+                console.log("note sent, response", response);
                 this.text = "";
-                console.log("note sent, response", response)
+                this.loadNotes();
             });
     }
 
 }
 
 interface Note {
-    idx:string;
+    // idx:string;
     text: string;
 
 }
