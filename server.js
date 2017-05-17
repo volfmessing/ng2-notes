@@ -3,7 +3,8 @@ var app = express();
 var path = require('path');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var cors = require('cors');
+//var cors = require('cors');
+var MongoStore = require('connect-mongo/es5')(session);
 
 var notes_initial = [
     {text: "First note"},
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 
 
 app.use(session({
+    store: new MongoStore({url: 'mongodb://localhost:27017/ng2-notes'}),
     secret: 'angular_tutorial',
     resave: true,
     saveUninitialized: true
