@@ -18,6 +18,9 @@ db.open(function () {
     db.collection('notes', function (error, notes) {
         db.notes = notes;
     });
+    db.collection('sections', function (error, sections) {
+        db.sections = sections;
+    });
     console.log("mongo db is opened!");
 });
 

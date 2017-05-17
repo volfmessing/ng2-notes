@@ -8,26 +8,10 @@ import "rxjs/add/operator/toPromise";
 
 @Component({
     selector: 'notes',
-    templateUrl: '/app/notes.component.html'/*,
-    template: `Notes list:
-    <ul>
-        <li *ngFor="let note of notes">
-            {{note.text}}
-            <button (click)="remove(note._id)">remove</button>
-        </li>
-    </ul>
-    <textarea [(ngModel)]="text"></textarea>
-     <button (click)="add()">Add</button>`*/
-
+    templateUrl: '/app/notes.component.html'
 })
 export class NotesComponent {
 
-    // notes: Note[] = [
-    //     {/*idx: '1', */text: "Note one"},
-    //     {/*idx: '2', */text: "Note two"}
-    // ]
-
-    // idx:string;
 
     notes: Note[] = [];
     text: string;

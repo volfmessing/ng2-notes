@@ -9,8 +9,7 @@ import {Http} from "@angular/http";
 
 @Component({
     selector: 'sections',
-    templateUrl: '/app/sections.component.html'/*,
-     template: ``*/
+    templateUrl: '/app/sections.component.html'
 })
 export class SectionsComponent {
     private sectionsUrl = 'http://localhost:8080/sections';
