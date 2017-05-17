@@ -5,6 +5,21 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 //var cors = require('cors');
 var MongoStore = require('connect-mongo/es5')(session);
+var Db = require('mongodb').Db;
+var Server = require('mongodb').Server;
+
+var db = new Db('ng2-notes',
+    new Server("localhost", 27017, {safe: true},
+        {auto_reconnect: true}, {}));
+
+db.open(function () {
+    db.collection('notes', function (error, notes) {
+        db.notes = notes;
+    });
+    console.log("mongo db is opened!");
+});
+
+
 
 var notes_initial = [
     {text: "First note"},
@@ -39,10 +54,14 @@ app.use(session({
 
 //get default notes from session
 app.get("/notes", function (req, res) {
-    if (!req.session.notes) {
-        req.session.notes = notes_initial;
-    }
-    res.send(req.session.notes);
+    // if (!req.session.notes) {
+    //     req.session.notes = notes_initial;
+    // }
+    // res.send(req.session.notes);
+    db.notes.find(req.query).toArray(function (err, items) {
+        res.send(items);
+    });
+
 });
 
 //add new note to session
