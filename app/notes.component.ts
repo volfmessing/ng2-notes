@@ -8,6 +8,7 @@ import "rxjs/add/operator/toPromise";
 
 @Component({
     selector: 'notes',
+    templateUrl: 'notes.component.html',
     template: `Notes list:
     <ul>
         <li *ngFor="let note of notes">
