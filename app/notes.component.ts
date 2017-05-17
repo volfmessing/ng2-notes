@@ -8,7 +8,7 @@ import "rxjs/add/operator/toPromise";
 
 @Component({
     selector: 'notes',
-    templateUrl: 'notes.component.html',
+    templateUrl: '/app/notes.component.html'/*,
     template: `Notes list:
     <ul>
         <li *ngFor="let note of notes">
@@ -17,7 +17,7 @@ import "rxjs/add/operator/toPromise";
         </li>
     </ul>
     <textarea [(ngModel)]="text"></textarea>
-    <button (click)="add()">Add</button>`
+     <button (click)="add()">Add</button>`*/
 
 })
 export class NotesComponent {

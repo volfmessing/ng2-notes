@@ -54,6 +54,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
+var root = __dirname + '/..'
+app.use(express.static(root));
+
 //get default notes from session
 app.get("/notes", function (req, res) {
     // if (!req.session.notes) {
@@ -87,6 +90,13 @@ app.delete("/notes", function (req, res) {
         }
     })
 });
+
+app.get("/sections", function (req, res) {
+    db.sections.find(req.query).toArray(function (err, items) {
+        res.send(items);
+    });
+});
+
 
 app.listen(8080);
 
