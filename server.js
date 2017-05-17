@@ -12,6 +12,8 @@ var db = new Db('ng2-notes',
     new Server("localhost", 27017, {safe: true},
         {auto_reconnect: true}, {}));
 
+var ObjectID = require('mongodb').ObjectID;
+
 db.open(function () {
     db.collection('notes', function (error, notes) {
         db.notes = notes;
@@ -73,6 +75,18 @@ app.post("/notes", function (req, res) {
     res.end();
 });
 
+
+app.delete("/notes", function (req, res) {
+    var id = new ObjectID(req.query.id);
+    db.notes.remove({_id: id}, function (err) {
+        if (err) {
+            console.log(err);
+            res.send("Failed");
+        } else {
+            res.send("Success");
+        }
+    })
+});
 
 app.listen(8080);
 

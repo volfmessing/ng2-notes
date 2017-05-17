@@ -12,7 +12,7 @@ import "rxjs/add/operator/toPromise";
     <ul>
         <li *ngFor="let note of notes; let i=index">
             {{note.text}}
-            <button (click)="remove(i)">remove</button>
+            <button (click)="remove({{note.idx}})">remove</button>
         </li>
     </ul>
     <textarea [(ngModel)]="text"></textarea>
@@ -22,10 +22,11 @@ import "rxjs/add/operator/toPromise";
 export class NotesComponent {
 
     notes: Note[] = [
-        {text: "Note one"},
-        {text: "Note two"}
+        {idx: '1', text: "Note one"},
+        {idx: '2', text: "Note two"}
     ]
 
+    idx:string;
     text: string;
 
     private notesUrl = 'http://localhost:8080/notes';  // URL to web api
@@ -38,14 +39,21 @@ export class NotesComponent {
     }
 
     add() {
-        let note = {text: this.text}
-        this.notes.push(note);
-        this.text = "";
+        let note = {idx: null, text: this.text}
         this.addNote(note);
     }
 
     remove(idx) {
-        this.notes.splice(idx, 1);
+        this.removeNote(idx);
+    }
+
+    removeNote(idx) {
+        this.http.delete(this.notesUrl, idx, {withCredentials: true}).toPromise()
+            .then(response => {
+                console.log("note sent, response", response);
+                this.notes.splice(idx, 1);
+            });
+
     }
 
     getNotes(): Promise<Note[]> {
@@ -56,12 +64,18 @@ export class NotesComponent {
 
     addNote(note:Note) {
         this.http.post(this.notesUrl, note, {withCredentials: true}).toPromise()
-            .then(response => console.log("note sent, response", response));
+            .then(response => {
+                note = response.json() as Note;
+                this.notes.push(note);
+                this.text = "";
+                console.log("note sent, response", response)
+            });
     }
 
 }
 
 interface Note {
+    idx:string;
     text: string;
 
 }
