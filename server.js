@@ -62,10 +62,6 @@ app.use(express.static(root));
 
 //get default notes from session
 app.get("/notes", function (req, res) {
-    // if (!req.session.notes) {
-    //     req.session.notes = notes_initial;
-    // }
-    // res.send(req.session.notes);
     db.notes.find(req.query).toArray(function (err, items) {
         res.send(items);
     });

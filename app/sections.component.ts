@@ -1,7 +1,7 @@
 /**
  * Created by vkhodak on 17.05.2017.
  */
-import {Component} from "@angular/core";
+import {Component, EventEmitter, Output} from "@angular/core";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs/Observable";
 import {Http} from "@angular/http";
@@ -17,6 +17,9 @@ export class SectionsComponent {
     sections:Section[];
 
     activeSection:string = null;
+
+    @Output() sectionChanged: EventEmitter<string> =
+        new EventEmitter<string>();
 
     constructor(private http:Http) {
         this.readSections();
@@ -39,6 +42,8 @@ export class SectionsComponent {
 
     showSection(section:Section) {
         this.activeSection = section.title;
+        this.sectionChanged.emit(this.activeSection);
+        console.log("emmited section: ", section.title);
     }
 }
 

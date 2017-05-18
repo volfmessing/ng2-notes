@@ -1,7 +1,7 @@
 /**
  * Created by dp-ptcstd-32 on 5/16/2017.
  */
-import {Component} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
 import {Http, RequestOptionsArgs, URLSearchParams} from "@angular/http";
 import "rxjs/add/operator/toPromise";
 import {Observable} from "rxjs";
@@ -11,25 +11,30 @@ import {Observable} from "rxjs";
     selector: 'notes',
     templateUrl: '/app/notes.component.html'
 })
-export class NotesComponent {
+export class NotesComponent implements OnInit, OnChanges {
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log("load notes from onChange ");
+        this.loadNotes();
+
+    }
+
+    ngOnInit(): void {
+
+    }
 
 
     notes: Note[] = [];
     text: string;
-    section: string = 'Work';
+    @Input() section: string = 'Work';
 
     private notesUrl = 'http://localhost:8080/notes';  // URL to web api
 
     constructor(private http: Http) {
-        this.loadNotes();
+
     }
 
     loadNotes() {
-        this.getNotes();
-        /*.then(notes => {
-            this.notes = notes
-            console.log("notes are loaded", notes);
-         });*/
+        this.getNotes().subscribe(notes => this.notes = notes);
     }
 
     add() {
@@ -60,6 +65,7 @@ export class NotesComponent {
         let params: URLSearchParams = new URLSearchParams();
         params.set('section', this.section);
         let requestParams: RequestOptionsArgs = {search: params, withCredentials: true};
+        console.log("run load notes ");
         return this.http.get(this.notesUrl, requestParams)
             .map(response => response.json() as Note[]);
     }

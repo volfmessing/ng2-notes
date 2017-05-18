@@ -8,4 +8,9 @@ import {Component} from "@angular/core";
 })
 export class AppComponent {
     name = "Vit";
+    section: string;
+
+    setSection(section: string) {
+        this.section = section;
+    }
 }
