@@ -4,6 +4,7 @@
  */
 (function (global) {
     System.config({
+        //defaultJSExtensions: "js",
         paths: {
             // paths serve as alias
             'npm:': 'node_modules/'
@@ -23,7 +24,9 @@
             '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
             // other libraries
             'rxjs': 'npm:rxjs',
-            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
+            'ng2-dragula': 'npm:ng2-dragula',
+            'dragula': 'npm:dragula/dist/dragula.js',
+            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -32,6 +35,10 @@
                 defaultExtension: 'js'
             },
             rxjs: {
+                defaultExtension: 'js'
+            },
+            'ng2-dragula': {
+                main: './index.js',
                 defaultExtension: 'js'
             },
             'angular-in-memory-web-api': {

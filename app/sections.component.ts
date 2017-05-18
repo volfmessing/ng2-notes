@@ -5,6 +5,7 @@ import {Component, EventEmitter, Output} from "@angular/core";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs/Observable";
 import {Http} from "@angular/http";
+import {DragulaService} from "ng2-dragula";
 
 
 @Component({
@@ -23,9 +24,22 @@ export class SectionsComponent {
     @Output() sectionChanged: EventEmitter<string> =
         new EventEmitter<string>();
 
-    constructor(private http:Http) {
+    constructor(private http: Http, private dragulaService: DragulaService) {
         this.readSections();
+        dragulaService.drop.subscribe(this.onDrop.bind(this));
     }
+
+    onDrop(value) {
+        let [bag, elementMoved, targetContainer, srcContainer] = value;
+        if (targetContainer.children) {
+            let arr = Array.from(targetContainer.children);
+            this.sections = arr.map((li: HTMLLIElement) => {
+                return {title: li.textContent.trim()}
+            });
+            this.writeSections().subscribe();
+        }
+    }
+
 
     readSections() {
         this.getSections().subscribe(sections=> {
@@ -63,6 +77,7 @@ export class SectionsComponent {
 
         // write sections to server and clear add section input box
         this.writeSections().subscribe(res => newSection.value = "");
+        // this.
     }
 
     writeSections() {

@@ -37,6 +37,8 @@
     "express-session": "^1.15.2",
     "lite-server": "^2.2.2",
     "typescript": "^2.0.3",
-    "typings": "^1.4.0"
+    "typings": "^1.4.0",
+    "dragula": "^3.7.2",
+    "ng2-dragula": "^1.2.2-0"
   }
 }
