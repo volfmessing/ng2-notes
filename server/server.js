@@ -57,8 +57,13 @@ app.use(session({
     saveUninitialized: true
 }));
 
-var root = __dirname + '/..'
-app.use(express.static(root));
+app.use(express.static(path.join(__dirname, '..')));
+// var root = __dirname;// + '/..'
+// app.use(express.static(root));
+
+// app.get("*", function(req, res, next) {
+//     res.sendFile('index.html', { root : root });
+// });
 
 //get default notes from session
 app.get("/notes", function (req, res) {

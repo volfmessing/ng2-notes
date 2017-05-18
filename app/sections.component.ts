@@ -12,7 +12,7 @@ import {Http} from "@angular/http";
     templateUrl: '/app/sections.component.html'
 })
 export class SectionsComponent {
-    private sectionsUrl = 'http://localhost:8080/sections';
+    private sectionsUrl = '/sections';
 
     sections:Section[];
 

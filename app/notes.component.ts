@@ -27,7 +27,7 @@ export class NotesComponent implements OnInit, OnChanges {
     text: string;
     @Input() section: string = 'Work';
 
-    private notesUrl = 'http://localhost:8080/notes';  // URL to web api
+    private notesUrl = '/notes';  // URL to web api
 
     constructor(private http: Http) {
 
