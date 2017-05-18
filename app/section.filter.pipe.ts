@@ -4,7 +4,7 @@ import {Section} from "./sections.component";
  * Created by dp-ptcstd-32 on 5/18/2017.
  */
 @Pipe({
-    name: 'sectionFilter'
+    name: 'sectionFilter', pure: false
 })
 export class SectionFilterPipe implements PipeTransform {
     transform(sections: Section[], v: string): Section[] {
