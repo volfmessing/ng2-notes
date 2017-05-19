@@ -12,4 +12,5 @@ export class SectionFilterPipe implements PipeTransform {
         return sections.filter(
             s => s.title.toLowerCase().startsWith(v.toLowerCase()));
     }
+
 }
